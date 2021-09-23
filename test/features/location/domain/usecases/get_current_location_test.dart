@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:weatherple/core/usecases/usecase.dart';
 import 'package:weatherple/features/location/domain/entities/location_data.dart';
 import 'package:weatherple/features/location/domain/repositories/location_repository.dart';
-import 'package:weatherple/features/location/usecases/get_current_location.dart';
+import 'package:weatherple/features/location/domain/usecases/get_current_location.dart';
 
 import 'location_repository.mocks.dart';
 

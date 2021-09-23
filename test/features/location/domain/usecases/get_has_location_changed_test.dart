@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:weatherple/core/usecases/usecase.dart';
-import 'package:weatherple/features/location/usecases/get_has_location_changed.dart';
+import 'package:weatherple/features/location/domain/usecases/get_has_location_changed.dart';
 
 import 'location_repository.mocks.dart';
 

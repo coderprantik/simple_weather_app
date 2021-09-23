@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:weatherple/core/usecases/usecase.dart';
 import 'package:weatherple/features/location/domain/entities/location_data.dart';
-import 'package:weatherple/features/location/usecases/get_cached_location.dart';
+import 'package:weatherple/features/location/domain/usecases/get_cached_location.dart';
 
 import 'location_repository.mocks.dart';
 
