@@ -7,7 +7,7 @@ import 'package:weatherple/features/location/domain/entities/location_data.dart'
 import 'package:weatherple/features/location/domain/repositories/location_repository.dart';
 import 'package:weatherple/features/location/usecases/get_current_location.dart';
 
-import 'get_current_location_test.mocks.dart';
+import 'location_repository.mocks.dart';
 
 
 @GenerateMocks([LocationRepository])
@@ -37,7 +37,7 @@ void main() {
       final result = await getCurrentLocation(NoParam());
       // assert
       expect(result, Right(tLocationData));
-      verify(mockLocationRepository);
+      verify(mockLocationRepository.getCurrentLocation());
       verifyNoMoreInteractions(mockLocationRepository);
     },
   );
