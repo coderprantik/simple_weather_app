@@ -7,5 +7,5 @@ abstract class LocationRepository {
 
   Future<Either<Failure, LocationData>> getCachedLocation();
 
-  Future<Either<Failure, bool>> getIfHasLocationChanged();
+  Future<Either<Failure, bool>> getHasLocationChanged();
 }
