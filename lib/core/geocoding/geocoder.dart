@@ -10,11 +10,11 @@ abstract class GeoCoder {
   });
 }
 
-class GeoCoderImpl implements GeoCoder {
+class GeocoderImpl implements GeoCoder {
   final Geolocator geolocator;
   final Geocoding geocoding;
 
-  GeoCoderImpl({
+  GeocoderImpl({
     required this.geolocator,
     required this.geocoding,
   });

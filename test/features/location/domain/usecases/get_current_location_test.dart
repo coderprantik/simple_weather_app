@@ -1,16 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:weatherple/core/usecases/usecase.dart';
 import 'package:weatherple/features/location/domain/entities/location_data.dart';
-import 'package:weatherple/features/location/domain/repositories/location_repository.dart';
 import 'package:weatherple/features/location/domain/usecases/get_current_location.dart';
 
 import 'location_repository.mocks.dart';
 
-
-@GenerateMocks([LocationRepository])
+// @GenerateMocks([LocationRepository])
 void main() {
   late MockLocationRepository mockLocationRepository;
   late GetCurrentLocation getCurrentLocation;
