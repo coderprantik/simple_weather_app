@@ -1,5 +1,5 @@
 import 'package:mockito/annotations.dart';
 import 'package:weatherple/features/location/domain/repositories/location_repository.dart';
 
-@GenerateMocks([LocationRepository])
+// @GenerateMocks([LocationRepository])
 void main() {}
