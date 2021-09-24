@@ -1,5 +1,5 @@
+import 'package:geocoding_platform_interface/geocoding_platform_interface.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weatherple/core/geocoding/geocoding.dart';
 
 abstract class GeoCoder {
   Future<String> getAddress();
@@ -12,7 +12,7 @@ abstract class GeoCoder {
 
 class GeocoderImpl implements GeoCoder {
   final Geolocator geolocator;
-  final Geocoding geocoding;
+  final GeocodingPlatform geocoding;
 
   GeocoderImpl({
     required this.geolocator,

@@ -4,10 +4,11 @@
 
 import 'dart:async' as _i4;
 
-import 'package:geocoding/geocoding.dart' as _i5;
+import 'package:geocoding_platform_interface/src/geocoding_platform_interface.dart'
+    as _i3;
+import 'package:geocoding_platform_interface/src/models/models.dart' as _i5;
 import 'package:geolocator/geolocator.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:weatherple/core/geocoding/geocoding.dart' as _i3;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters
@@ -29,14 +30,22 @@ class MockGeolocator extends _i1.Mock implements _i2.Geolocator {
   String toString() => super.toString();
 }
 
-/// A class which mocks [Geocoding].
+/// A class which mocks [GeocodingPlatform].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGeocoding extends _i1.Mock implements _i3.Geocoding {
-  MockGeocoding() {
+class MockGeocodingPlatform extends _i1.Mock implements _i3.GeocodingPlatform {
+  MockGeocodingPlatform() {
     _i1.throwOnMissingStub(this);
   }
 
+  @override
+  _i4.Future<List<_i5.Location>> locationFromAddress(String? address,
+          {String? localeIdentifier}) =>
+      (super.noSuchMethod(
+              Invocation.method(#locationFromAddress, [address],
+                  {#localeIdentifier: localeIdentifier}),
+              returnValue: Future<List<_i5.Location>>.value(<_i5.Location>[]))
+          as _i4.Future<List<_i5.Location>>);
   @override
   _i4.Future<List<_i5.Placemark>> placemarkFromCoordinates(
           double? latitude, double? longitude, {String? localeIdentifier}) =>
