@@ -1,7 +1,7 @@
 import 'package:geocoding_platform_interface/geocoding_platform_interface.dart';
 import 'package:geolocator_platform_interface/geolocator_platform_interface.dart';
 
-abstract class GeoCoder {
+abstract class Geocoder {
   Future<String> getAddress(
       {required double latitude, required double longitude});
 
@@ -13,7 +13,7 @@ abstract class GeoCoder {
   });
 }
 
-class GeocoderImpl implements GeoCoder {
+class GeocoderImpl implements Geocoder {
   final GeolocatorPlatform geolocator;
   final GeocodingPlatform geocoding;
 
