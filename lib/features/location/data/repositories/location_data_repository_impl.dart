@@ -1,4 +1,7 @@
+import 'package:geolocator_platform_interface/geolocator_platform_interface.dart';
+import 'package:weatherple/core/error/exceptions.dart';
 import 'package:weatherple/core/geocoding/geocoder.dart';
+import 'package:weatherple/core/values/message.dart';
 import 'package:weatherple/features/location/data/datasources/location_cache_data_source.dart';
 import 'package:weatherple/features/location/data/datasources/location_service_data_source.dart';
 import 'package:weatherple/features/location/domain/entities/location_data.dart';
@@ -18,15 +21,27 @@ class LocationRepositoryImpl implements LocationRepository {
   });
 
   @override
-  Future<Either<Failure, LocationData>> getCachedLocation() {
-    // TODO: implement getCachedLocation
-    throw UnimplementedError();
+  Future<Either<Failure, LocationData>> getCurrentLocation() async {
+    try {
+      final locationDataModel = await serviceDataSource.getCurrentLocation();
+      cacheDataSource.cacheLocationData(locationDataModel);
+      return Right(locationDataModel);
+    } on PermissionDeniedException catch (e) {
+      return Left(SecurityFailure(e.message));
+    } on ServiceDisabledException {
+      return Left(SecurityFailure(MESSAGE.LOCATION_SERVICE_DISABLED));
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
   }
 
   @override
-  Future<Either<Failure, LocationData>> getCurrentLocation() {
-    // TODO: implement getCurrentLocation
-    throw UnimplementedError();
+  Future<Either<Failure, LocationData>> getCachedLocation() async {
+    try {
+      return Right(await cacheDataSource.getCachedLocationData());
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
 
   @override

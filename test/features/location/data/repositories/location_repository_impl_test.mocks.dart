@@ -2,17 +2,15 @@
 // in weatherple/test/features/location/data/repositories/location_repository_impl_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i5;
+import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:weatherple/core/geocoding/geocoder.dart' as _i7;
+import 'package:weatherple/core/geocoding/geocoder.dart' as _i6;
 import 'package:weatherple/features/location/data/datasources/location_cache_data_source.dart'
-    as _i6;
+    as _i5;
 import 'package:weatherple/features/location/data/datasources/location_service_data_source.dart'
-    as _i4;
-import 'package:weatherple/features/location/data/models/location_data_model.dart'
     as _i3;
-import 'package:weatherple/features/location/domain/entities/location_data.dart'
+import 'package:weatherple/features/location/data/models/location_data_model.dart'
     as _i2;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -23,25 +21,24 @@ import 'package:weatherple/features/location/domain/entities/location_data.dart'
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
-class _FakeLocationData_0 extends _i1.Fake implements _i2.LocationData {}
-
-class _FakeLocationDataModel_1 extends _i1.Fake
-    implements _i3.LocationDataModel {}
+class _FakeLocationDataModel_0 extends _i1.Fake
+    implements _i2.LocationDataModel {}
 
 /// A class which mocks [LocationServiceDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLocationServiceDataSource extends _i1.Mock
-    implements _i4.LocationServiceDataSource {
+    implements _i3.LocationServiceDataSource {
   MockLocationServiceDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.LocationData> getCurrentLocation() => (super.noSuchMethod(
+  _i4.Future<_i2.LocationDataModel> getCurrentLocation() => (super.noSuchMethod(
           Invocation.method(#getCurrentLocation, []),
-          returnValue: Future<_i2.LocationData>.value(_FakeLocationData_0()))
-      as _i5.Future<_i2.LocationData>);
+          returnValue:
+              Future<_i2.LocationDataModel>.value(_FakeLocationDataModel_0()))
+      as _i4.Future<_i2.LocationDataModel>);
   @override
   String toString() => super.toString();
 }
@@ -50,21 +47,23 @@ class MockLocationServiceDataSource extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLocationCacheDataSource extends _i1.Mock
-    implements _i6.LocationCacheDataSource {
+    implements _i5.LocationCacheDataSource {
   MockLocationCacheDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i3.LocationDataModel> getCachedLocationData() =>
+  _i4.Future<_i2.LocationDataModel> getCachedLocationData() =>
       (super.noSuchMethod(Invocation.method(#getCachedLocationData, []),
-              returnValue: Future<_i3.LocationDataModel>.value(
-                  _FakeLocationDataModel_1()))
-          as _i5.Future<_i3.LocationDataModel>);
+              returnValue: Future<_i2.LocationDataModel>.value(
+                  _FakeLocationDataModel_0()))
+          as _i4.Future<_i2.LocationDataModel>);
   @override
-  _i5.Future<bool> cacheLocationData() =>
-      (super.noSuchMethod(Invocation.method(#cacheLocationData, []),
-          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
+  _i4.Future<bool> cacheLocationData(
+          _i2.LocationDataModel? locationDataModel) =>
+      (super.noSuchMethod(
+          Invocation.method(#cacheLocationData, [locationDataModel]),
+          returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
   @override
   String toString() => super.toString();
 }
@@ -72,17 +71,17 @@ class MockLocationCacheDataSource extends _i1.Mock
 /// A class which mocks [Geocoder].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGeocoder extends _i1.Mock implements _i7.Geocoder {
+class MockGeocoder extends _i1.Mock implements _i6.Geocoder {
   MockGeocoder() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<String> getAddress({double? latitude, double? longitude}) =>
+  _i4.Future<String> getAddress({double? latitude, double? longitude}) =>
       (super.noSuchMethod(
           Invocation.method(
               #getAddress, [], {#latitude: latitude, #longitude: longitude}),
-          returnValue: Future<String>.value('')) as _i5.Future<String>);
+          returnValue: Future<String>.value('')) as _i4.Future<String>);
   @override
   double getDistanceBetween(
           {double? startLatitude,

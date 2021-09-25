@@ -9,4 +9,18 @@ abstract class Failure extends Equatable {
   List<Object?> get props => properties;
 }
 
+class UnexpectedFailure extends Failure {
+  final String? message;
+
+  UnexpectedFailure(this.message) : super([message]);
+}
+
 class NoInternetFailure extends Failure {}
+
+class SecurityFailure extends Failure {
+  final String? message;
+
+  SecurityFailure(this.message) : super([message]);
+}
+
+class CacheFailure extends Failure {}

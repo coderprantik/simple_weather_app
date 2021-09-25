@@ -3,5 +3,5 @@ import 'package:weatherple/features/location/data/models/location_data_model.dar
 abstract class LocationCacheDataSource {
   Future<LocationDataModel> getCachedLocationData();
 
-  Future<bool> cacheLocationData();
+  Future<bool> cacheLocationData(LocationDataModel locationDataModel);
 }

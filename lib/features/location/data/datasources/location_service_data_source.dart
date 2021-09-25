@@ -1,5 +1,5 @@
-import 'package:weatherple/features/location/domain/entities/location_data.dart';
+import 'package:weatherple/features/location/data/models/location_data_model.dart';
 
 abstract class LocationServiceDataSource {
-  Future<LocationData> getCurrentLocation();
+  Future<LocationDataModel> getCurrentLocation();
 }
