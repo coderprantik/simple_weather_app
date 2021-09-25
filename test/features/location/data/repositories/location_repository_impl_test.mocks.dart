@@ -21,6 +21,7 @@ import 'package:weatherple/features/location/data/models/location_data_model.dar
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
+// ignore: camel_case_types
 class _FakeLocationDataModel_0 extends _i1.Fake
     implements _i2.LocationDataModel {}
 

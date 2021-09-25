@@ -20,6 +20,7 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
+// ignore: camel_case_types
 class _FakePosition_0 extends _i1.Fake implements _i2.Position {}
 
 /// A class which mocks [GeolocatorPlatform].
