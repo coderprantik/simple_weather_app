@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:geolocator_platform_interface/geolocator_platform_interface.dart';
 import 'package:weatherple/core/error/exceptions.dart';
 import 'package:weatherple/core/geocoding/geocoder.dart';
@@ -21,10 +24,11 @@ class LocationRepositoryImpl implements LocationRepository {
   });
 
   @override
-  Future<Either<Failure, LocationData>> getCurrentLocation() async {
+  Future<Either<Failure, LocationData>> getCurrentLocation(
+      [bool cache = true]) async {
     try {
       final locationDataModel = await serviceDataSource.getCurrentLocation();
-      cacheDataSource.cacheLocationData(locationDataModel);
+      if (cache) cacheDataSource.cacheLocationData(locationDataModel);
       return Right(locationDataModel);
     } on PermissionDeniedException catch (e) {
       return Left(SecurityFailure(e.message));
@@ -45,8 +49,44 @@ class LocationRepositoryImpl implements LocationRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> getHasLocationChanged() {
-    // TODO: implement getHasLocationChanged
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> getHasLocationChanged() async {
+    late Failure _failure;
+    late LocationData currentLocationData, cacheLocationData;
+
+    /// currentLocationData
+    var locationData = await getCurrentLocation(false);
+
+    locationData.fold(
+      (failure) => _failure = failure,
+      (locationData) => currentLocationData = locationData,
+    );
+
+    if (locationData.isLeft()) return Left(_failure);
+
+    /// cacheLocationData
+    locationData = await getCachedLocation();
+
+    locationData.fold(
+      (failure) => _failure = failure,
+      (locationData) => cacheLocationData = locationData,
+    );
+
+    if (locationData.isLeft()) return Left(_failure);
+
+    try {
+      final distance = geocoder.getDistanceBetween(
+        startLatitude: currentLocationData.latitude,
+        startLongitude: currentLocationData.longitude,
+        endLatitude: cacheLocationData.latitude,
+        endLongitude: cacheLocationData.longitude,
+      );
+      return Right(distance > 20000);
+    } on SocketException {
+      return Left(NoInternetFailure());
+    } on PlatformException catch (e) {
+      return Left(UnexpectedFailure('${e.message}, ${e.code}\n${e.details}'));
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
   }
 }

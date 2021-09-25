@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geolocator_platform_interface/geolocator_platform_interface.dart';
 import 'package:mockito/annotations.dart';
@@ -40,6 +41,13 @@ void main() {
     longitude: 1.0,
     address: 'address',
   );
+
+  _mockGetDistanceBetween() => mockGeocoder.getDistanceBetween(
+        startLatitude: anyNamed('startLatitude'),
+        startLongitude: anyNamed('startLongitude'),
+        endLatitude: anyNamed('endLatitude'),
+        endLongitude: anyNamed('endLongitude'),
+      );
 
   group('getCurrentLocation', () {
     test(
@@ -134,5 +142,96 @@ void main() {
         expect(result, Left(CacheFailure()));
       },
     );
+  });
+
+  group('getHasLocationChangedk', () {
+    test(
+      'should not do more interactions if getCurrentLocation returns failure',
+      () async {
+        // arrange
+        when(mockServiceDataSource.getCurrentLocation())
+            .thenThrow(PermissionDeniedException(''));
+        // act
+        final result = await locationRepositoryImpl.getHasLocationChanged();
+        // assert
+        expect(result, Left(SecurityFailure('')));
+        verifyZeroInteractions(mockCacheDataSource);
+        verifyZeroInteractions(mockGeocoder);
+      },
+    );
+    group('getCurrentLocation returns LocationDataModel', () {
+      setUp(() {
+        when(mockServiceDataSource.getCurrentLocation())
+            .thenAnswer((_) async => tLocationDataModel);
+      });
+      test(
+        'should do no more interactions if getCachedLocation returns failure',
+        () async {
+          // arrange
+          when(mockCacheDataSource.getCachedLocationData())
+              .thenThrow(CacheException());
+          // act
+          final result = await locationRepositoryImpl.getHasLocationChanged();
+          // assert
+          expect(result, Left(CacheFailure()));
+          verifyZeroInteractions(mockGeocoder);
+        },
+      );
+      group('getCachedLocation returns LocationDataModel', () {
+        setUp(() {
+          when(mockCacheDataSource.getCachedLocationData())
+              .thenAnswer((_) async => tLocationDataModel);
+        });
+        test(
+          'should return NoInternetFailure if there is no internet',
+          () async {
+            // arrange
+            when(_mockGetDistanceBetween())
+                .thenThrow(SocketException(MESSAGE.NO_INTERNET));
+            // act
+            final result = await locationRepositoryImpl.getHasLocationChanged();
+            // assert
+            expect(result, Left(NoInternetFailure()));
+          },
+        );
+        test(
+          'should return UnexpectedFailure if it throws PlatformException or any other',
+          () async {
+            final _exception = PlatformException(code: '0');
+            // arrange
+            when(_mockGetDistanceBetween()).thenThrow(_exception);
+            // act
+            final result = await locationRepositoryImpl.getHasLocationChanged();
+            // assert
+            final _expectedFailure = UnexpectedFailure(
+              '${_exception.message}, ${_exception.code}\n${_exception.details}',
+            );
+            expect(result, Left(_expectedFailure));
+          },
+        );
+        test(
+          'should return true if distance is greater than 20,000 meters',
+          () async {
+            // arrange
+            when(_mockGetDistanceBetween()).thenReturn(20001);
+            // act
+            final result = await locationRepositoryImpl.getHasLocationChanged();
+            // assert
+            expect(result, Right(true));
+          },
+        );
+        test(
+          'should return false if distance is smaller or equal than 20,000 meters',
+          () async {
+            // arrange
+            when(_mockGetDistanceBetween()).thenReturn(20000);
+            // act
+            final result = await locationRepositoryImpl.getHasLocationChanged();
+            // assert
+            expect(result, Right(false));
+          },
+        );
+      });
+    });
   });
 }
